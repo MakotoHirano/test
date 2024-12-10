@@ -22,18 +22,18 @@ jobs:
             migration-files:
               - 'dir1/V**'
             migration-need-maintenance-files:
-              - '!dir1/V*_NO_MAINTENANCE*'
+              - 'dir1/V*[!_NO_MAINTENANCE]*'
 
       - name: output message0
         if: steps.check-migration.outputs.migration-files == 'true'
         run: echo "今回はマイグレーションが発生します。"
 
       - name: output message1
-        if: steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenace-files == 'true'
+        if: steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenance-files == 'true'
         run: echo "今回はメンテナンスを含むマイグレーションが発生します。"
 
       - name: output message2
-        if: steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenace-files == 'false'
+        if: steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenance-files == 'false'
         run: echo "今回はメンテナンスを含まないマイグレーションが発生します。"
 
       - name: output message3
