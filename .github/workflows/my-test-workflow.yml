@@ -23,17 +23,11 @@ jobs:
             migration-need-maintenance-files:
               - '!dir1/V*_NO_MAINTENANCE*'
       - name: output message1
-        uses: dorny/echo-action@v1
         if: ${{ steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenace-files == 'true' }}
-        with:
-          message: "今回はメンテナンスを含むマイグレーションが発生します。"
+        run: echo "今回はメンテナンスを含むマイグレーションが発生します。"
       - name: output message2
-        uses: dorny/echo-action@v1
         if: ${{ steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenace-files == 'false' }}
-        with:
-          message: "今回はメンテナンスを含まないマイグレーションが発生します。"
+        run: echo "今回はメンテナンスを含まないマイグレーションが発生します。"
       - name: output message3
-        uses: dorny/echo-action@v1
         if: ${{ steps.check-migration.outputs.migration-files == 'false' }}
-        with:
-          message: "今回はマイグレーションは発生しません。"
+        run: echo "今回はマイグレーションは発生しません。"
