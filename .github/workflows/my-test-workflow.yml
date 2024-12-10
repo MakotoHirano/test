@@ -1,0 +1,39 @@
+name: test for glob expression
+
+on: workflow_dispatch
+
+jobs:
+  output-message:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check migration
+        uses: dorny/paths-filter@v3
+        id: check-migration
+        with:
+          filters: |
+            migration-files:
+              - 'dir1/V**'
+            migration-need-maintenance-files:
+              - '!dir1/V*_NO_MAINTENANCE*'
+      - name: output message1
+        uses: dorny/echo-action@v1
+        if: ${{ steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenace-files == 'true' }}
+        with:
+          message: "今回はメンテナンスを含むマイグレーションが発生します。"
+      - name: output message2
+        uses: dorny/echo-action@v1
+        if: ${{ steps.check-migration.outputs.migration-files == 'true' && steps.check-migration.outputs.migration-need-maintenace-files == 'false' }}
+        with:
+          message: "今回はメンテナンスを含まないマイグレーションが発生します。"
+      - name: output message3
+        uses: dorny/echo-action@v1
+        if: ${{ steps.check-migration.outputs.migration-files == 'false' }}
+        with:
+          message: "今回はマイグレーションは発生しません。"
