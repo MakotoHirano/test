@@ -1,6 +1,12 @@
 name: test for glob expression
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      dir:
+        type: string
+        required: true
+        description: traverse directory
 
 jobs:
   output-message:
@@ -20,9 +26,9 @@ jobs:
         with:
           filters: |
             migration-files:
-              - 'dir2/V**'
+              - '${{ github.event.inputs.dir }}/V**'
             migration-need-maintenance-files:
-              - 'dir2/V*[!_NO_MAINTENANCE]*'
+              - '${{ github.event.inputs.dir }}/V*[!_NO_MAINTENANCE]*'
 
       - name: output message0
         if: steps.check-migration.outputs.migration-files == 'true'
