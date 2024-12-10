@@ -28,7 +28,7 @@ jobs:
             migration-files:
               - '${{ github.event.inputs.dir }}/V**'
             migration-need-maintenance-files:
-              - '${{ github.event.inputs.dir }}/[!*_NO_MAINTENANCE]*'
+              - '${{ github.event.inputs.dir }}/[!*_NO_MAINTENANCE].scala'
 
       - name: output message0
         if: steps.check-migration.outputs.migration-files == 'true'
