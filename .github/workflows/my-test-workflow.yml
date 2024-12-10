@@ -20,9 +20,9 @@ jobs:
         with:
           filters: |
             migration-files:
-              - 'dir1/V**'
+              - 'dir2/V**'
             migration-need-maintenance-files:
-              - 'dir1/V*[!_NO_MAINTENANCE]*'
+              - 'dir2/V*[!_NO_MAINTENANCE]*'
 
       - name: output message0
         if: steps.check-migration.outputs.migration-files == 'true'
